@@ -6,27 +6,35 @@ import java.util.TreeMap;
 
 public class Q2070 {
     public int[] maximumBeauty(int[][] items, int[] queries) {
+        int[] ans = new int[queries.length];
 
-        Arrays.sort(items, Comparator.comparingInt(a -> a[0]));
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        map.put(0, 0);
-
-        for(int[] i: items) {
-            if(map.containsKey(i[0])) {
-                map.put(i[0], Math.max(i[1], map.get(i[0])));
-            } else {
-                map.put(i[0], Math.max(i[1], map.lowerEntry(i[0]).getValue()));
-            }
-        }
-        for(int i = 0; i < queries.length; i++) {
-            if(map.containsKey(queries[i])) {
-                queries[i] = map.get(queries[i]);
-            } else {
-                queries[i] = map.lowerEntry(queries[i]).getValue();
-            }
-
+        Arrays.sort(items, (a, b) -> a[0] - b[0]);
+        int max = items[0][1];
+        for (int i = 0; i < items.length; i++) {
+            max = Math.max(max, items[i][1]);
+            items[i][1] = max;
         }
 
-        return queries;
+        for (int i = 0; i < queries.length; i++) {
+            ans[i] = binarySearch(items, queries[i]);
+        }
+
+        return ans;
+    }
+
+    private int binarySearch(int[][] items, int targetPrice) {
+        int l = 0;
+        int r = items.length - 1;
+        int maxBeauty = 0;
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (items[mid][0] > targetPrice) {
+                r = mid - 1;
+            } else {
+                maxBeauty = Math.max(maxBeauty, items[mid][1]);
+                l = mid + 1;
+            }
+        }
+        return maxBeauty;
     }
 }
