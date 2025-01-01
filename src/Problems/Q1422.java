@@ -3,28 +3,26 @@ package Problems;
 public class Q1422 {
     public int maxScore(String s) {
         int n = s.length();
-        int[] score = new int[n];
-
-        score[0] = s.charAt(0) == '0' ? 1 : 0;
-        int max = Math.max(score[0], 0);
+        int zero = s.charAt(0) == '0' ? 1 : 0;
+        int max = zero;
         for(int i = 1; i < n - 1; i++) {
-            score[i] = s.charAt(i) == '0' ? score[i - 1] + 1 : score[i - 1];
-            if(score[i] > max) {
-                max = score[i];
+            if(s.charAt(i) == '0') {
+                zero++;
+                max = zero;
             }
         }
 
-        score[n - 1] = s.charAt(n - 1) == '1' ? score[n - 2] + 1 : score[n - 2];
-        max = Math.max(score[n - 1], max);
+        int zeroOne = s.charAt(n - 1) == '1' ? zero + 1 : zero;
+        max = Math.max(zeroOne, max);
         for(int i = n - 2; i > 0; i--) {
             if(s.charAt(i) == '1') {
-                score[i] = score[i + 1] + 1;
+                zeroOne++;
             } else {
-                score[i] = score[i + 1] - 1;
+                zeroOne--;
             }
 
-            if(score[i] > max) {
-                max = score[i];
+            if(zeroOne > max) {
+                max = zeroOne;
             }
         }
         return max;
