@@ -6,11 +6,17 @@ import java.util.List;
 
 public class Q916 {
     public List<String> wordSubsets(String[] words1, String[] words2) {
-        int[][] countW2 = new int[words2.length][26];
-        for(int i = 0; i < words2.length; i++) {
-            for(int j = 0; j < words2[i].length(); j++) {
-                countW2[i][words2[i].charAt(j) - 'a']++;
+        int[] maxCountW2 = new int[26];
+        int[] curr = new int[26];
+        for(String s: words2) {
+            for(int i = 0; i < s.length(); i++) {
+                int index = s.charAt(i) - 'a';
+                curr[index]++;
+                if(curr[index] > maxCountW2[index]) {
+                    maxCountW2[index] = curr[index];
+                }
             }
+            Arrays.fill(curr, 0);
         }
 
         List<String> ans = new ArrayList<>();
@@ -20,14 +26,9 @@ public class Q916 {
                 countW1[s.charAt(i) - 'a']++;
             }
             boolean flag = true;
-            for(int i = 0; i < words2.length; i++) {
-                for(int j = 0; j < 26; j++) {
-                    if(countW2[i][j] > countW1[j]) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if(!flag) {
+            for(int i = 0; i < 26; i++) {
+                if(countW1[i] < maxCountW2[i]) {
+                    flag = false;
                     break;
                 }
             }
