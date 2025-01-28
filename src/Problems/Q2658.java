@@ -28,7 +28,7 @@ public class Q2658 {
                         for(int k = 0; k < 4; k++) {
                             int x = r + directions[k];
                             int y = c + directions[k + 1];
-                            if(x >= 0 && x < n && y >= 0 && y < m && grid[x][y] > 0 && !visited[x][y]) {
+                            if(x >= 0 && x < n && y >= 0 && y < m && !visited[x][y] && grid[x][y] > 0) {
                                 d.offer(new int[]{x, y});
                             }
                         }
