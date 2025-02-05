@@ -2,23 +2,24 @@ package Problems;
 
 public class Q1790 {
     public boolean areAlmostEqual(String s1, String s2) {
-        int[] count = new int[26];
+        int first = 0; int second = 0;
         int difCount = 0;
         for(int i = 0; i < s1.length(); i++) {
-            if(s1.charAt(i) != s2.charAt(i)) {
+            char ch1 = s1.charAt(i);
+            char ch2 = s2.charAt(i);
+            if(ch1 != ch2) {
                 difCount++;
-            }
-            count[s1.charAt(i) - 'a']++;
-            count[s2.charAt(i) - 'a']--;
-        }
-        if(difCount > 2) {
-            return false;
-        }
-        for(int i: count) {
-            if(i > 0) {
-                return false;
+                if(difCount > 2) {
+                    return false;
+                }
+                if(difCount == 1) {
+                    first = i;
+                } else {
+                    second = i;
+                }
             }
         }
-        return true;
+        return s1.charAt(first) == s2.charAt(second) &&
+                s1.charAt(second) == s2.charAt(first);
     }
 }
