@@ -6,7 +6,7 @@ import java.util.Map;
 public class Q3160 {
     public int[] queryResults(int limit, int[][] queries) {
         int n = queries.length;
-        int[] balls = new int[limit + 1];
+        Map<Integer, Integer> groups = new HashMap<>();
         Map<Integer, Integer> countMap = new HashMap<>();
 
         int[] result = new int[n];
@@ -15,17 +15,16 @@ public class Q3160 {
         for(int i = 0; i < n; i++) {
             int x = queries[i][0];
             int y = queries[i][1];
-            if(countMap.merge(y, 1, Integer::sum) == 1) {
-                currDist++;
-            }
-            if(balls[x] != 0) {
-                if(countMap.merge(balls[x], -1, Integer::sum) == 0) {
-                    currDist--;
-                    countMap.remove(balls[x]);
+
+            countMap.merge(y, 1, Integer::sum);
+            if(groups.containsKey(x)) {
+                int temp = groups.get(x);
+                if(countMap.merge(temp, -1, Integer::sum) == 0) {
+                    countMap.remove(temp);
                 }
             }
-            balls[x] = y;
-            result[i] = currDist;
+            groups.put(x, y);
+            result[i] = countMap.size();
         }
         return result;
     }
