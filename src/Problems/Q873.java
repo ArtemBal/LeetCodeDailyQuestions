@@ -1,25 +1,28 @@
 package Problems;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Q873 {
     public int lenLongestFibSubseq(int[] arr) {
-        int max = 0;
         int n = arr.length;
-        int[] last = new int[2];
+        Set<Integer> set = new HashSet<>();
+        for(int i : arr) {
+            set.add(i);
+        }
+        int max = 0;
         for(int  i = 0; i < n - 2; i++) {
             for(int j = i + 1; j < n - 1; j++) {
-                last[0] = arr[i];
-                last[1] = arr[j];
-                int curr = j + 1;
-                int currCount = 2;
-                while(curr < n) {
-                    if(arr[curr] == last[0] + last[1]) {
-                        last[0] = last[1];
-                        last[1] = arr[curr];
-                        currCount++;
-                    }
-                    curr++;
+                int prev = arr[j];
+                int curr = arr[i] + arr[j];
+                int count = 2;
+                while(set.contains(curr)) {
+                    int temp = curr;
+                    curr += prev;
+                    prev = temp;
+                    count++;
                 }
-                max = Math.max(max, currCount);
+                max = Math.max(max, count);
             }
         }
         return max < 3 ? 0 : max;
