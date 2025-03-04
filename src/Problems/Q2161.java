@@ -1,28 +1,28 @@
 package Problems;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Q2161 {
     public int[] pivotArray(int[] nums, int pivot) {
-        List<Integer> less = new ArrayList<>();
-        List<Integer> large = new ArrayList<>();
-        int countPivot = 0;
+        int n = nums.length;
+        int[] res = new int[n];
+        int index = 0;
+        int countPivots = 0;
         for(int i: nums) {
             if(i < pivot) {
-                less.add(i);
-            }
-            if(i > pivot) {
-                large.add(i);
+                res[index++] = i;
             }
             if(i == pivot) {
-                countPivot++;
+                countPivots++;
             }
         }
-        while(countPivot-- > 0) {
-            less.add(pivot);
+        Arrays.fill(res, index, index + countPivots, pivot);
+        index += countPivots;
+        for(int i: nums) {
+            if(i > pivot) {
+                res[index++] = i;
+            }
         }
-        less.addAll(large);
-        return less.stream().mapToInt(i -> i).toArray();
+        return res;
     }
 }
