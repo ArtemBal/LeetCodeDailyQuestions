@@ -1,16 +1,13 @@
 package Problems;
 
+import java.util.BitSet;
+
 public class Q2206 {
     public boolean divideArray(int[] nums) {
-        boolean[] count = new boolean[501];
+        BitSet bitSet = new BitSet(501);
         for(int i: nums) {
-            count[i] = !count[i];
+            bitSet.flip(i);
         }
-        for(boolean b: count) {
-            if(b) {
-                return false;
-            }
-        }
-        return true;
+        return bitSet.cardinality() == 0;
     }
 }
