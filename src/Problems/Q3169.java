@@ -1,21 +1,20 @@
 package Problems;
 
+import java.util.Arrays;
+
 public class Q3169 {
     public int countDays(int days, int[][] meetings) {
-        int[] diff = new int[days + 2];
-        for(int[] arr: meetings) {
-            diff[arr[0]]++;
-            diff[arr[1] + 1]--;
-        }
-        int count = 0;
+        Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
+        int last = 0;
         int ans = 0;
-
-        for(int i = 1; i <= days; i++) {
-            count += diff[i];
-            if(count == 0) {
-                ans++;
+        for(int[] arr: meetings) {
+            int start = arr[0];
+            int end = arr[1];
+            if(start - 1 > last) {
+                ans += start - last - 1;
             }
+            last = Math.max(last, end);
         }
-        return ans;
+        return ans += days - last;
     }
 }
