@@ -1,25 +1,35 @@
 package Problems;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+
 public class Q3170 {
     public String clearStars(String s) {
-        int[] count = new int[26];
-        StringBuilder sb = new StringBuilder(s.length());
-        for(char c: s.toCharArray()) {
-
-            if(c != '*') {
-                int curr = c - 'a';
-                sb.append(c);
-                count[curr]++;
-            } else {
-                int smallestIndex = 0;
-                while(count[smallestIndex] == 0) {
-                    smallestIndex++;
+        Deque<Integer>[] characterIndices = new Deque[26];
+        Arrays.setAll(characterIndices, k -> new ArrayDeque<>());
+        int n = s.length();
+        boolean[] remove = new boolean[n];
+        for (int i = 0; i < n; ++i) {
+            if (s.charAt(i) == '*') {
+                remove[i] = true;
+                for (int j = 0; j < 26; ++j) {
+                    if (!characterIndices[j].isEmpty()) {
+                        remove[characterIndices[j].pop()] = true;
+                        break;
+                    }
                 }
-                sb.deleteCharAt(sb.lastIndexOf((char)(smallestIndex + 'a') + ""));
-                count[smallestIndex]--;
+            } else {
+                characterIndices[s.charAt(i) - 'a'].push(i);
             }
         }
-        return sb.toString();
-    }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < n; ++i) {
+            if (!remove[i]) {
+                result.append(s.charAt(i));
+            }
+        }
 
+        return result.toString();
+    }
 }
