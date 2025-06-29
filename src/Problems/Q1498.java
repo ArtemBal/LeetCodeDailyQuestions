@@ -13,30 +13,16 @@ public class Q1498 {
             pows[i] = pows[i - 1] * 2 % MOD;
         }
         int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            if (nums[i] * 2L > target) {
-                break;
+        int l = 0;
+        int r = n - 1;
+        while(l <= r) {
+            if(nums[l] + nums[r] <= target) {
+                ans = (ans + pows[r - l]) % MOD;
+                l++;
+            } else {
+                r--;
             }
-            int j = binarySearch(nums, target - nums[i], i + 1) - 1;
-            ans = (ans + pows[j - i]) % MOD;
         }
         return ans;
     }
-
-    private int binarySearch(int[] nums, int x, int left) {
-        int right = nums.length;
-
-        while (left < right) {
-            int mid = (left + right) >> 1;
-
-            if (nums[mid] > x) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
-    }
-
-
 }
