@@ -1,30 +1,32 @@
 package Problems;
 
-import java.util.PriorityQueue;
-
 public class Q2785 {
     public String sortVowels(String s) {
+        String vowels = "AEIOUaeiou";
         StringBuilder sb = new StringBuilder(s);
-        var pq = new PriorityQueue<Character>();
+        int[] vowelsFreq = new int[10];
+        int vowelsCount = 0;
         for(char c: s.toCharArray()) {
-            if(isVowel(c)) {
-                pq.add(c);
+            int index = vowels.indexOf(c);
+            if(index != -1) {
+                vowelsFreq[index]++;
+                vowelsCount++;
             }
         }
         int index = 0;
-        while(!pq.isEmpty()) {
-            while(!isVowel(s.charAt(index))) {
+        while(vowelsCount > 0) {
+            while(vowels.indexOf(s.charAt(index)) == -1) {
                 index++;
             }
-            sb.setCharAt(index, pq.poll());
+            int vowelIndex = 0;
+            while(vowelsFreq[vowelIndex] == 0) {
+                vowelIndex++;
+            }
+            sb.setCharAt(index, vowels.charAt(vowelIndex));
+            vowelsFreq[vowelIndex]--;
+            vowelsCount--;
             index++;
         }
         return sb.toString();
     }
-
-    private boolean isVowel(char c) {
-        String vowels = "aeiouAEIOU";
-        return vowels.indexOf(c) != -1;
-    }
-
 }
