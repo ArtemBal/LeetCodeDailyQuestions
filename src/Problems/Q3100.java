@@ -2,20 +2,14 @@ package Problems;
 
 public class Q3100 {
     public int maxBottlesDrunk(int numBottles, int numExchange) {
-        return helper(numBottles, 0, numExchange);
-    }
-
-    private int helper(int full, int empty, int rate) {
-        empty += full;
-        if(empty < rate) {
-            return full;
+        int ans = 0;
+        ans += numBottles;
+        int empty = numBottles;
+        while(empty >= numExchange) {
+            ans++;
+            empty = empty - numExchange + 1;
+            numExchange++;
         }
-        int newFull = 0;
-        while(empty >= rate) {
-            newFull++;
-            empty = empty - rate;
-            rate++;
-        }
-        return full + helper(newFull, empty, rate);
+        return ans;
     }
 }
