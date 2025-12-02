@@ -14,15 +14,26 @@ public class Q3623 {
             int y = a[1];
             parallelSidesToX = (parallelSidesToX + freq.merge(y, 1, Integer::sum) - 1) % MOD;
         }
-        BigInteger ans = new BigInteger("0");
-        BigInteger allSides = new BigInteger(String.valueOf(parallelSidesToX));
+        long ans = 0;
         for(var e: freq.entrySet()) {
             int k = e.getKey();
-            int v = e.getValue();
-            BigInteger sides = new BigInteger(String.valueOf((long)v * (v - 1) / 2));
-            allSides = allSides.subtract(sides).abs();
-            ans = ans.add(allSides.multiply(sides)).mod(new BigInteger(String.valueOf(MOD)));
+            long v = e.getValue();
+            long sides = v * (v - 1) / 2;
+            parallelSidesToX = Math.abs(parallelSidesToX - sides);
+            ans += modMultiply(parallelSidesToX, sides, MOD);
+            ans = ans % MOD;
         }
-        return ans.intValue();
+        return (int) ans;
+    }
+
+    public static long modMultiply(long a, long b, long M) {
+        long result = a * b; // Potential for overflow if a and b are very large
+        long finalResult = result % M;
+
+        // Adjust for negative results of the % operator if necessary
+        if (finalResult < 0) {
+            finalResult += M;
+        }
+        return finalResult;
     }
 }
