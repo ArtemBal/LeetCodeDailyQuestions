@@ -37,7 +37,12 @@ public class Q3606 {
         return false;
     }
 
-    public static boolean checkId(String s) {
-        return s.matches("\\w+");
+    public static boolean checkId(String val) {
+        for(var c : val.toCharArray())
+        {
+            if(!Character.isDigit(c) && !Character.isLetter(c) && c != '_')
+                return false;
+        }
+        return !val.isEmpty();
     }
 }
