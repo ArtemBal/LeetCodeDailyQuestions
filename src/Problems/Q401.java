@@ -12,7 +12,9 @@ public class Q401 {
         for(int h = 0; h < 12; h++) {
             for(int m = 0; m < 60; m++) {
                 if(Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
-                    ans.add(h + ":" + (m < 10 ? "0" : "") + m);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(h).append(":").append(m < 10 ? "0" : "").append(m);
+                    ans.add(sb.toString());
                 }
             }
         }
