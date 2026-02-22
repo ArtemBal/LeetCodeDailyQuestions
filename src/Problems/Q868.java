@@ -2,14 +2,19 @@ package Problems;
 
 public class Q868 {
     public int binaryGap(int n) {
-        String s = Integer.toUnsignedString(n, 2);
         int ans = 0;
+        while((n & 1) == 0 && n != 0) {
+            n >>= 1;
+        }
+        int currPos = 0;
         int lastBit = 0;
-        for(int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) == '1') {
-                ans = Math.max(i - lastBit, ans);
-                lastBit = i;
+        while(n != 0) {
+            if((n & 1) == 1) {
+                ans = Math.max(ans, currPos - lastBit);
+                lastBit = currPos;
             }
+            currPos++;
+            n >>= 1;
         }
         return ans;
     }
