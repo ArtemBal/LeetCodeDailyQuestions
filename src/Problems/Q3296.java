@@ -1,6 +1,8 @@
 package Problems;
 
 public class Q3296 {
+    private static final double EPS = 1e-7;
+
     public long minNumberOfSeconds(int mountainHeight, int[] workerTimes) {
         int min = workerTimes[0];
         for(int n: workerTimes) {
@@ -30,15 +32,10 @@ public class Q3296 {
     private long calculateTotalWork(long seconds, int[] arr) {
         long ans = 0;
         for(int n: arr) {
-            long temp = 0;
-            int i = 1;
-            while(temp + n * i <= seconds) {
-                temp += (long) n * i;
-                i++;
-                ans++;
-            }
+            long temp = seconds / n;
+            long k = (long) ((-1.0 + Math.sqrt(1 + temp * 8)) / 2 + EPS);
+            ans += k;
         }
         return ans;
     }
-
 }
